@@ -1,6 +1,9 @@
 from app.database.connection import SessionLocal
 from app.database.models import Client
 
+from app.services.pipefy_service import PipefyService
+
+
 class ClientService:
     @staticmethod
     def create_client(data):
@@ -20,7 +23,14 @@ class ClientService:
 
             db.refresh(client)
 
-            return client
+            pipefy_payload = PipefyService.create_card_payload(
+                client
+            )
+
+            return {
+                "client": client,
+                "pipefy_payload": pipefy_payload,
+            }
 
         finally:
             db.close()

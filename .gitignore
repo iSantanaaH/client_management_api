@@ -1,4 +1,5 @@
 .idea
+.env
 app/__pycache__/
 app/schemas/__pycache__/
 app/database/__pycache__/

@@ -21,11 +21,11 @@ def home():
 
 @app.post("/clientes")
 def create_client(payload: ClientCreateSchema):
-    client = ClientService.create_client(payload)
+    result = ClientService.create_client(payload)
 
     return {
         "message": "Cliente criado",
-        "data": client
+        "data": result
     }
 
 @app.post("/webhooks/pipefy/card-updated")
