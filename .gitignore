@@ -1,3 +1,6 @@
 .idea
 app/__pycache__/
 app/schemas/__pycache__/
+app/database/__pycache__/
+app/database/models/__pycache__/
+app/services/__pycache__/
