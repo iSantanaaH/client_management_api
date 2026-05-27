@@ -4,10 +4,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class PipefyService:
 
     @staticmethod
     def create_card_payload(client):
+
         pipe_id = os.getenv("PIPEFY_PIPE_ID")
 
         mutation = """
@@ -43,10 +45,57 @@ class PipefyService:
         """.strip()
 
         variables = {
-            "PIPEFY_PIPE_ID": pipe_id,
+            "pipeId": pipe_id,
             "nome": client.cliente_nome,
             "email": client.cliente_email,
             "patrimonio": str(client.valor_patrimonio)
+        }
+
+        return {
+            "query": mutation,
+            "variables": variables
+        }
+
+    @staticmethod
+    def build_update_card_mutation(
+            card_id: str,
+            prioridade: str
+    ):
+
+        mutation = """
+        mutation UpdateCard(
+            $cardId: ID!,
+            $status: String!,
+            $prioridade: String!
+        ) {
+
+            updateStatus: updateCardField(input: {
+                card_id: $cardId,
+                field_id: "status",
+                new_value: $status
+            }) {
+                card {
+                    id
+                }
+            }
+
+            updatePriority: updateCardField(input: {
+                card_id: $cardId,
+                field_id: "prioridade",
+                new_value: $prioridade
+            }) {
+                card {
+                    id
+                }
+            }
+
+        }
+        """.strip()
+
+        variables = {
+            "cardId": card_id,
+            "status": "Processado",
+            "prioridade": prioridade
         }
 
         return {

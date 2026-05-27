@@ -29,3 +29,8 @@ class Client(Base):
         String,
         default='Aguardando Análise',
     )
+
+    prioridade = Column(
+        String,
+        nullable=True,
+    )

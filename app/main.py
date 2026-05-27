@@ -1,12 +1,11 @@
 from fastapi import FastAPI
 
-from app.schemas.client_schema import ClientCreateSchema
-from app.schemas.webhook_schema import PipefyWebhookSchema
-
 # Database Connection
 from app.database.connection import Base, engine
-from app.database.models import Client
-from app.services.client_service import ClientService
+
+# Routes
+from app.routes.webhook_routes import router as webhook_routes
+from app.routes.client_routes import router as client_routes
 
 Base.metadata.create_all(bind=engine)
 
@@ -15,22 +14,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
+app.include_router(webhook_routes)
+app.include_router(client_routes)
+
 @app.get("/")
 def home():
     return {"message": "Api online"}
-
-@app.post("/clientes")
-def create_client(payload: ClientCreateSchema):
-    result = ClientService.create_client(payload)
-
-    return {
-        "message": "Cliente criado",
-        "data": result
-    }
-
-@app.post("/webhooks/pipefy/card-updated")
-def pipefy_webhook(payload: PipefyWebhookSchema):
-    return {
-        "message": "Webhook recebido",
-        "data": payload
-    }
