@@ -11,6 +11,6 @@ def create_client(payload: ClientCreateSchema):
     result = ClientService.create_client(payload)
 
     return {
-        "message": "Cliente criado",
+        "message": "Cliente criado com sucesso",
         "data": result
     }
