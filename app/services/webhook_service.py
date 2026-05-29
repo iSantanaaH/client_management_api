@@ -50,8 +50,6 @@ def process_webhook(payload, db: Session):
         prioridade
     )
 
-    print(graphql_mutation)
-
     # 5. Atualizar cliente
     client.status = "Processado"
     client.prioridade = prioridade
